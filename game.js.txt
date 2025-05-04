@@ -1,0 +1,38 @@
+let balance = 500;
+let multiplier = 1;
+let gameInterval;
+let rocketSpeed = 1;
+
+document.getElementById('startButton').addEventListener('click', startGame);
+document.getElementById('stopButton').addEventListener('click', stopGame);
+
+function startGame() {
+  document.getElementById('startButton').disabled = true;
+  document.getElementById('stopButton').disabled = false;
+
+  rocketSpeed = 1;
+  multiplier = 1;
+
+  gameInterval = setInterval(() => {
+    rocketSpeed += 0.1;
+    multiplier += 0.1;
+    document.getElementById('multiplier').textContent = `Множитель: ${multiplier.toFixed(1)}x`;
+  }, 1000);
+}
+
+function stopGame() {
+  clearInterval(gameInterval);
+  document.getElementById('startButton').disabled = false;
+  document.getElementById('stopButton').disabled = true;
+
+  const win = Math.random() < 0.5;
+  if (win) {
+    balance += Math.floor(100 * multiplier);
+    alert(`Вы выиграли! Ваш новый баланс: ${balance}₽`);
+  } else {
+    balance -= Math.floor(100 * multiplier);
+    alert(`Вы проиграли. Ваш новый баланс: ${balance}₽`);
+  }
+
+  document.getElementById('balance').textContent = `Баланс: ${balance}₽`;
+}
